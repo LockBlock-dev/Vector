@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Memory.hpp"
 #include "Registers.hpp"
 
@@ -6,6 +7,7 @@
 class Processor {
 public:
     void load(const std::vector<WORD>& program);
+    void load_elf(const std::string& path);
     void step();
     void reset();
     void state() const;

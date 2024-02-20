@@ -6,7 +6,7 @@
 #include <concepts>
 #include <cstring>
 
-constexpr int RAM_SIZE = 102;//4 * 1024;
+constexpr int RAM_SIZE = 1024 * 1024;
 constexpr int WORD_SIZE = sizeof(WORD);
 
 // 2^XLEN

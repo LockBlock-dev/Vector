@@ -6,7 +6,13 @@ int main() {
 
     cpu.reset();
 
-    // cpu.step();
+    cpu.load_elf("./tests/helloworld.out");
+
+    for (int i = 0; i < 9; ++i)
+    {
+        cpu.step();
+        // cpu.state();
+    }
 
     cpu.state();
 

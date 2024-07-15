@@ -1,9 +1,11 @@
-#include "Processor.hpp"
-#include "constants.hpp"
 #include <fstream>
 #include <iostream>
 #include <bitset>
 #include <elf.h>
+
+#include "Processor.hpp"
+#include "constants.hpp"
+#include "debug.hpp"
 
 void Processor::load(const std::vector<WORD>& program)
 {
@@ -104,8 +106,6 @@ void Processor::load_elf(const std::string& path)
 
                 elf_file.read(reinterpret_cast<char*>(data), elf_section_header.sh_size);
 
-                // std::cout << data << "\n";
-
                 for (unsigned int j = 0; j < elf_section_header.sh_size; ++j)
                     this->memory.write(elf_section_header.sh_addr + j + (IALIGN / 8), data[j]);
 
@@ -149,9 +149,7 @@ const WORD& Processor::Register(const WORD index) const
 void Processor::state() const
 {
     std::cout << "\t\t====== CPU STATE" << " ======\n";
-
     std::cout << "pc = " << this->pc << "\n";
-
     std::cout << "\n";
 
     this->registers.state();
@@ -164,7 +162,7 @@ void Processor::execute(WORD instruction)
     switch (opcode)
     {
         case RV32I_LOAD: {
-            std::cout << "RV32I_LOAD\n";
+            DEBUG_PRINT("RV32I_LOAD")
 
             struct IType* instr = reinterpret_cast<IType*>(&instruction);
 
@@ -210,7 +208,7 @@ void Processor::execute(WORD instruction)
         }
         
         case RV32I_OP_IMM: {
-            std::cout << "RV32I_OP_IMM\n";
+            DEBUG_PRINT("RV32I_OP_IMM")
 
             struct IType* instr = reinterpret_cast<IType*>(&instruction);
 
@@ -285,7 +283,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_AUIPC: {
-            std::cout << "RV32I_AUIPC\n";
+            DEBUG_PRINT("RV32I_AUIPC")
 
             struct UType* instr = reinterpret_cast<UType*>(&instruction);
 
@@ -298,7 +296,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_STORE: {
-            std::cout << "RV32I_STORE\n";
+            DEBUG_PRINT("RV32I_STORE")
 
             struct SType* instr = reinterpret_cast<SType*>(&instruction);
 
@@ -334,7 +332,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_OP: {
-            std::cout << "RV32I_OP\n";
+            DEBUG_PRINT("RV32I_OP")
 
             struct RType* instr = reinterpret_cast<RType*>(&instruction);
 
@@ -421,7 +419,7 @@ void Processor::execute(WORD instruction)
         }
         
         case RV32I_LUI: {
-            std::cout << "RV32I_LUI\n";
+            DEBUG_PRINT("RV32I_LUI")
 
             struct UType* instr = reinterpret_cast<UType*>(&instruction);
 
@@ -434,7 +432,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_BRANCH: {
-            std::cout << "RV32I_BRANCH\n";
+            DEBUG_PRINT("RV32I_BRANCH")
 
             struct BType* instr = reinterpret_cast<BType*>(&instruction);
 
@@ -485,7 +483,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_JALR: {
-            std::cout << "RV32I_JALR\n";
+            DEBUG_PRINT("RV32I_JALR")
 
             struct IType* instr = reinterpret_cast<IType*>(&instruction);
 
@@ -499,7 +497,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_JAL: {
-            std::cout << "RV32I_JAL\n";
+            DEBUG_PRINT("RV32I_JAL")
 
             struct JType* instr = reinterpret_cast<JType*>(&instruction);
 
@@ -512,7 +510,7 @@ void Processor::execute(WORD instruction)
         }
 
         case RV32I_SYSTEM: {
-            std::cout << "RV32I_SYSTEM\n";
+            DEBUG_PRINT("RV32I_SYSTEM")
 
             struct IType* instr = reinterpret_cast<IType*>(&instruction);
 
